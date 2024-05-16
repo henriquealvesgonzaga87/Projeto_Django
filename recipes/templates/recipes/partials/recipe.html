@@ -3,38 +3,38 @@
         <img src="https://via.placeholder.com/1280x720.png/269fe6" alt="Temporario">
     </div>
     <div class="recipe-title-container">
-        <h2 class="recipe-title">Lorem ipsum dolor sit amet.</h2>
+        <h2 class="recipe-title">{{ recipe.title }}</h2>
     </div>
     <div class="recipe-author">
         <span class="recipe-author-item">
             <i class="fas fa-user"></i>
-            Henrique Gonzaga
+            {{ recipe.author.first_name }} {{ recipe.author.last_name }}
         </span>
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            2024/05/16 09:32
+            {{ recipe.created_at|date:"Y/m/d H:i" }}
         </span>
         <span class="recipe-author item">
             <a href="/recipes/category/breakfast/">
                 <i class="fas fa-layer-group"></i>
-                <span>Breakfast</span>
+                <span>{{ recipe.category.name }}</span>
             </a>
         </span>
     </div>
     <div class="recipe-content">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere amet in cupiditate praesentium nihil cumque voluptatibus quae blanditiis illo error sint autem quis, inventore veritatis explicabo eligendi animi repudiandae nobis!</p>
+        <p>{{ recipe.description }}</p>
     </div>
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparation</h3>
             <div class="recipe-meta-text">
-                0 Minutes
+                {{ recipe.preparation_time }} {{ recipe.preparation_time_unit }}
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
             <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Portions</h3>
             <div class="recipe-meta-text">
-                0 Portions
+                {{ recipe.servings }} {{ recipe.servings_unit }}
             </div>
         </div>
     </div>
