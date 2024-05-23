@@ -56,5 +56,6 @@
       "django-html": "html", // batisteo.vscode-django
       "javascript": "javascriptreact",
       "typescript": "typescriptreact"
-    }
+    },
+    "explorer.compactFolders": false
   }
