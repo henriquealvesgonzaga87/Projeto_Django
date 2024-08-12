@@ -133,3 +133,5 @@ static/
 !db.sqlite3
 .idea/
 
+id_rsa_projeto_django
+id_rsa_projeto_django.pub
