@@ -135,3 +135,7 @@ static/
 
 id_rsa_projeto_django
 id_rsa_projeto_django.pub
+
+!.coveragerc
+!.vscode/launch.json
+!.vscode/settings.json
