@@ -131,3 +131,5 @@ static/
 
 # Add again for course purpose (delete later)
 !db.sqlite3
+.idea/
+
