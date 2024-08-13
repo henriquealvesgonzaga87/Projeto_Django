@@ -13,7 +13,7 @@ PER_PAGE = int(os.environ.get('PER_PAGE', default=6))
 def home(request):
     recipes = Recipe.objects.filter(is_published=True).order_by('-id')
 
-    page_object, pagination_range = make_pagination(request, recipes, PER_PAGE)
+    page_object, pagination_range = make_pagination(request, recipes, PER_PAGE)     
 
     return render(request, 'recipes/pages/home.html', context={
         'recipes': page_object,
@@ -52,7 +52,7 @@ def recipe(request, id):
     })
 
 
-def search(request):
+def search(request):    
     search_term = request.GET.get('q', '').strip()
 
     if not search_term:
