@@ -1,12 +1,12 @@
+import pytest
+
 from . base import AuthorsBaseTest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 
+@pytest.mark.functional_test
 class AuthorsRegisterTest(AuthorsBaseTest):
-    def get_by_place_holder(self, web_element, placeholder):
-        return web_element.find_element(By.XPATH, f'//input[@placeholder="{placeholder}"]')
-    
     def fill_form_dummy_data(self, form):
         fields = form.find_elements(By.TAG_NAME, 'input')
         
@@ -70,7 +70,6 @@ class AuthorsRegisterTest(AuthorsBaseTest):
             email_field.send_keys(Keys.ENTER)
 
             form = self.get_form()
-            self.sleep()
 
             self.assertIn("example@example.com", form.text)
         self.form_field_test_with_call_back(callback=callback)
@@ -84,7 +83,6 @@ class AuthorsRegisterTest(AuthorsBaseTest):
             password2.send_keys(Keys.ENTER)
 
             form = self.get_form()
-            self.sleep()
 
             self.assertIn("This field can't be empty", form.text)
         self.form_field_test_with_call_back(callback=callback)
