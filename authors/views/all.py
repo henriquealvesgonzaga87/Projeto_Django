@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from authors.forms.recipe_form import AuthorRecipeForm
 
-from .forms import RegisterForm, LoginForm
+from authors.forms import RegisterForm, LoginForm
 
 from recipes.models import Recipe
 
