@@ -26,6 +26,9 @@ class RecipeListViewBase(ListView):
             is_published = True
         )
 
+        queryset = queryset.select_related('author', 'category')
+        #queryset = queryset.prefetch_related('author', 'category') -> when it's many to many relationship
+
         return queryset
     
     def get_context_data(self, *args, **kwargs):
