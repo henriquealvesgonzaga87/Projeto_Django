@@ -60,7 +60,7 @@ class RecipeListViewBase(ListView):
         )
 
         queryset = queryset.select_related('author', 'category')
-        queryset = queryset.prefetch_related('tags')
+        queryset = queryset.prefetch_related('tags', 'author__profile')
         #queryset = queryset.prefetch_related('author', 'category') -> when it's many to many relationship
 
         return queryset
