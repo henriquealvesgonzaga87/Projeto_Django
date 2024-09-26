@@ -7,6 +7,8 @@ from recipes.models import Recipe
 from utils.django_forms import add_attr
 from utils.strings import is_positive_number
 
+from authors.validators import AuthorRecipeValidator
+
 
 class AuthorRecipeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -52,45 +54,46 @@ class AuthorRecipeForm(forms.ModelForm):
     
     def clean(self, *args, **kwargs):
         super_clean =  super().clean(*args, **kwargs)
+        AuthorRecipeValidator(self.cleaned_data, ErrorClass=ValidationError)
 
-        cleaned_data = self.cleaned_data
+        # cleaned_data = self.cleaned_data
         
-        title = cleaned_data.get('title')
-        description = cleaned_data.get('description')
+        # title = cleaned_data.get('title')
+        # description = cleaned_data.get('description')
 
-        if description == title:
-            self._my_errors['description'].append("The description can't be equal to the title")
-            self._my_errors['title'].append("The title can't be equal to the description")
+        # if description == title:
+        #     self._my_errors['description'].append("The description can't be equal to the title")
+        #     self._my_errors['title'].append("The title can't be equal to the description")
 
-        if self._my_errors:
-            raise ValidationError(self._my_errors)
+        # if self._my_errors:
+        #     raise ValidationError(self._my_errors)
 
         return super_clean
     
-    def clean_title(self):
-        title = self.cleaned_data.get('title')
+    # def clean_title(self):
+    #     title = self.cleaned_data.get('title')
 
-        if len(title) < 5:
-            self._my_errors['title'].append('Title must have at least 5 chars.')
+    #     if len(title) < 5:
+    #         self._my_errors['title'].append('Title must have at least 5 chars.')
 
-        return title
+    #     return title
     
-    def clean_preparation_time(self):
-        field_name = 'preparation_time'
-        field_value = self.cleaned_data.get(field_name)
+    # def clean_preparation_time(self):
+    #     field_name = 'preparation_time'
+    #     field_value = self.cleaned_data.get(field_name)
 
-        if not is_positive_number(field_value):
-            self._my_errors[field_name].append("Must be a positive number")
+    #     if not is_positive_number(field_value):
+    #         self._my_errors[field_name].append("Must be a positive number")
 
-        return field_value
+    #     return field_value
     
-    def clean_servings(self):
-        field_name = 'servings'
-        field_value = self.cleaned_data.get(field_name)
+    # def clean_servings(self):
+    #     field_name = 'servings'
+    #     field_value = self.cleaned_data.get(field_name)
 
-        if not is_positive_number(field_value):
-            self._my_errors[field_name].append("Must be a positive number")
+    #     if not is_positive_number(field_value):
+    #         self._my_errors[field_name].append("Must be a positive number")
 
-        return field_value
+    #     return field_value
     
     
