@@ -1,6 +1,10 @@
 import os
 from collections import defaultdict
+from random import SystemRandom
+import string
 from django.db import models
+from django.db.models.functions import Concat
+from django.db.models import F, Value
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 from django.urls import reverse
@@ -16,9 +20,23 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class RecipeManager(models.Manager):
+    def get_published(self):
+        return self.filter(
+            is_published=True
+        ).annotate(
+            author_full_name=Concat(
+                F('author__first_name'), Value(' '),
+                F('author__last_name'), Value(' ('),
+                F('author__username'), Value(')'),
+            )
+        ).order_by('-id').select_related('category', 'author').prefetch_related('tags')
 
 
 class Recipe(models.Model):
+    objects = RecipeManager()
     title = models.CharField(max_length=65)
     description = models.CharField(max_length=165)
     slug = models.SlugField(unique=True)
@@ -65,8 +83,13 @@ class Recipe(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            slug = f"{slugify(self.title)}"
-            self.slug = slug
+            rand_letters = ''.join(
+                SystemRandom().choices(
+                    string.ascii_letters + string.digits,
+                    k=5,
+                )
+            )
+            self.slug = slugify(f"{self.title}-{rand_letters}")
 
         saved = super().save(*args, **kwargs)
 
