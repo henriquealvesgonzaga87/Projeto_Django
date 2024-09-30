@@ -8,3 +8,4 @@ from .i18n import *
 from .assets import *
 from .messages import *
 from .debug_tollbar import *
+from .django_rest_framework import *
