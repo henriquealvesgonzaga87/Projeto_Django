@@ -31,11 +31,6 @@ class RecipeApiV2ViewSet(ModelViewSet):
     
     def get_serializer(self, *args, **kwargs):
         return super().get_serializer(*args, **kwargs)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["example"] = "This is in example now"
-        return context
 
     def get_queryset(self):
         query_set = super().get_queryset()
