@@ -29,7 +29,7 @@ class RegisterForm(forms.ModelForm):
 
     username = forms.CharField(
         error_messages={
-            'required': "This field can't be empty",
+            'required': "This field must not be empty",
             'min_lenght': "Username must have at least 4 and 150 characters",
             'max_lenght': 'Username must have less than 150 characters'
             },
@@ -50,7 +50,7 @@ class RegisterForm(forms.ModelForm):
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
-        error_messages={"required": "This field can't be empty"},
+        error_messages={"required": "This field must not be empty"},
         help_text="Must have at least one uppercase and one uppercase letter and one number",
         validators=[strong_password],
         label="Password"
@@ -59,7 +59,7 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
-        error_messages={"required": "This field can't be empty"},
+        error_messages={"required": "This field must not be empty"},
         help_text="You need to repeat your password",
         label="Password"
     )
@@ -92,7 +92,7 @@ class RegisterForm(forms.ModelForm):
 
         if password != password2:
             password_confirmation_error = ValidationError(
-                    "The passwords don't match",
+                    "Password and password2 must be equal",
                     code='Invalid'
                 )
             raise ValidationError({

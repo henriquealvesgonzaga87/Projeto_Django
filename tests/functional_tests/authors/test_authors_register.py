@@ -1,8 +1,8 @@
 import pytest
-
-from . base import AuthorsBaseTest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
+from .base import AuthorsBaseTest
 
 
 @pytest.mark.functional_test
@@ -60,7 +60,7 @@ class AuthorsRegisterTest(AuthorsBaseTest):
 
             form = self.get_form()
 
-            self.assertIn("This field can't be empty", form.text)
+            self.assertIn("This field must not be empty", form.text)
         self.form_field_test_with_call_back(callback=callback)
 
     def test_invalid_email_error_message(self):
@@ -84,7 +84,7 @@ class AuthorsRegisterTest(AuthorsBaseTest):
 
             form = self.get_form()
 
-            self.assertIn("This field can't be empty", form.text)
+            self.assertIn("This field must not be empty", form.text)
         self.form_field_test_with_call_back(callback=callback)
 
     def test_user_valid_data_register_successfuly(self):

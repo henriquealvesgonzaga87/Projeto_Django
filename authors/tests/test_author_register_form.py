@@ -1,9 +1,10 @@
 from unittest import TestCase
 
 from django.test import TestCase as DjangoTestCase
-from authors.forms import RegisterForm
-from parameterized import parameterized
 from django.urls import reverse
+from parameterized import parameterized
+
+from authors.forms import RegisterForm
 
 
 class AuthorRegisterFormUnitTest(TestCase):
@@ -58,11 +59,11 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         return super().setUp(*args, **kwargs)
     
     @parameterized.expand([
-        ('username', "This field can't be empty"),
+        ('username', "This field must not be empty"),
         ('first_name', 'Write your first name'),
         ('last_name', 'Write your last name'),
-        ('password', "This field can't be empty"),
-        ('password2', 'You need to repeat your password'),
+        ('password', "This field must not be empty"),
+        ('password2', 'Password and password2 must be equal'),
         ('email', 'Email is not valid')
     ])
     def test_fields_cannot_be_empty(self, field, msg):
@@ -74,11 +75,11 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.assertIn(msg, response.context['form'].errors.get(field))
 
     def test_username_field_min_lenght_should_be_4(self):
-        self.form_data['username'] = 'joao'
+        self.form_data['username'] = 'joa'
         url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
-        msg = 'Username must have at least 4 and 150 characters'
+        msg = 'Ensure this value has at least 4 characters (it has 3).'
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get('username'))
 
@@ -87,7 +88,7 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
-        msg = 'Username must have less than 150 characters'
+        msg = 'Ensure this value has at most 150 characters (it has 151).'
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get('username'))
 
@@ -109,12 +110,12 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
     def test_password_and_password_confirmation_are_equal(self):
         self.form_data['password'] = '@A123abc123'
-        self.form_data['password'] = '@A123abc1234'
+        self.form_data['password2'] = '@A123abc1234'
 
         url = reverse('authors:register_create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
-        msg = "The passwords don't match"
+        msg = "Password and password2 must be equal"
         
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get('password'))

@@ -130,12 +130,9 @@ db copy.sqlite3
 static/
 
 # Add again for course purpose (delete later)
-db.sqlite3
 .idea/
 
 id_rsa_projeto_django
 id_rsa_projeto_django.pub
 
 !.coveragerc
-!.vscode/launch.json
-!.vscode/settings.json
