@@ -1,19 +1,20 @@
-from django.http import Http404
-from django.db.models import Q, F, Value
+import os
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import F, Q, Value
 from django.db.models.aggregates import Count
 from django.db.models.functions import Concat
-from django.http.response import HttpResponse as HttpResponse
-from django.views.generic import ListView, DetailView
-from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.http import Http404, JsonResponse
+from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
-from django.core.exceptions import ObjectDoesNotExist
+from django.utils import translation
+from django.utils.translation import gettext as _
+from django.views.generic import DetailView, ListView
 
 from recipes.models import Recipe
 from tag.models import Tag
 from utils.pagination import make_pagination
-
-import os
 
 PER_PAGE = int(os.environ.get('PER_PAGE', default=6))
 
@@ -70,7 +71,13 @@ class RecipeListViewBase(ListView):
 
         page_object, pagination_range = make_pagination(self.request, context.get("recipes"), PER_PAGE)
 
-        context.update({"recipes": page_object, "pagination_range": pagination_range})
+        html_language = translation.get_language()
+
+        context.update({
+            "recipes": page_object, 
+            "pagination_range": pagination_range,
+            'html_language': html_language        
+        })
 
         return context
     
@@ -108,9 +115,10 @@ class RecipeListViewCategory(RecipeListViewBase):
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        category_translation = _('Category')
 
         context.update({
-            'title': f"{context.get('recipes')[0].category.name} - Category | "
+            'title': f"{context.get('recipes')[0].category.name} - {category_translation} | "
         })
 
         return context
