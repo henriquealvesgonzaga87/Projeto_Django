@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def get_env_variable(variable_name, default_value=''):
     return os.environ.get(variable_name, default_value)
